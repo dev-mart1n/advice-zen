@@ -2,23 +2,15 @@ const quoteEl = document.getElementById("quote");
 const authorEl = document.getElementById("author");
 const newQuoteBtn = document.getElementById("new-quote");
 
-let lastQuote = ""; // store last quote
-
 async function fetchQuote() {
   try {
     const res = await fetch("https://api.quotable.io/random");
     if (!res.ok) throw new Error("Network response not ok");
     const data = await res.json();
 
-    // only update if new quote is different from last
-    if (data.content !== lastQuote) {
-      quoteEl.textContent = data.content;
-      authorEl.textContent = `— ${data.author}`;
-      lastQuote = data.content;
-    } else {
-      // if same quote, just fetch again once
-      fetchQuote();
-    }
+    // Display the quote
+    quoteEl.textContent = data.content;
+    authorEl.textContent = `— ${data.author}`;
   } catch (err) {
     console.error(err);
     quoteEl.textContent = "Oops! Couldn't fetch a quote.";
@@ -26,8 +18,8 @@ async function fetchQuote() {
   }
 }
 
-// initial quote
+// Fetch a quote on page load
 fetchQuote();
 
-// button click
+// Fetch a new quote when button is clicked
 newQuoteBtn.addEventListener("click", fetchQuote);
