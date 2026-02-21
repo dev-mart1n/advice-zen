@@ -11,7 +11,6 @@ async function fetchQuote() {
     const data = await res.json();
 
     quoteEl.textContent = `"${data.slip.advice}"`;
-    authorEl.textContent = `— Advice Slip`;
   } catch (err) {
     console.error(err);
     quoteEl.textContent = "Oops! Couldn't fetch a quote.";
