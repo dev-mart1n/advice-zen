@@ -2,22 +2,33 @@ const quoteEl = document.getElementById("quote");
 const authorEl = document.getElementById("author");
 const newQuoteBtn = document.getElementById("new-quote");
 
-async function fetchQuote() {
-  try {
-    const res = await fetch("https://zenquotes.io/api/random");
-    const data = await res.json();
-    const { q, a } = data[0];
-    quoteEl.textContent = q;
-    authorEl.textContent = `— ${a}`;
-  } catch (err) {
-    quoteEl.textContent = "Oops! Couldn't fetch a quote.";
-    authorEl.textContent = "";
-    console.error(err);
-  }
+// Local quotes array
+const quotes = [
+  {
+    content: "Keep your face always toward the sunshine.",
+    author: "Walt Whitman",
+  },
+  { content: "The best way out is always through.", author: "Robert Frost" },
+  {
+    content: "Do something today that your future self will thank you for.",
+    author: "Unknown",
+  },
+  { content: "Happiness depends upon ourselves.", author: "Aristotle" },
+  {
+    content: "Positive anything is better than negative nothing.",
+    author: "Elbert Hubbard",
+  },
+];
+
+function getRandomQuote() {
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  const q = quotes[randomIndex];
+  quoteEl.textContent = q.content;
+  authorEl.textContent = `— ${q.author}`;
 }
 
-// Fetch one quote on load
-fetchQuote();
+// Show a quote on load
+getRandomQuote();
 
-// Fetch new quote on button click
-newQuoteBtn.addEventListener("click", fetchQuote);
+// Show a new quote when button clicked
+newQuoteBtn.addEventListener("click", getRandomQuote);
