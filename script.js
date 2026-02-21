@@ -2,17 +2,16 @@ const quoteEl = document.getElementById("quote");
 const authorEl = document.getElementById("author");
 const newQuoteBtn = document.getElementById("new-quote");
 
-// Function to fetch a quote from ZenQuotes
 async function fetchQuote() {
   try {
-    const res = await fetch("https://zenquotes.io/api/random");
+    const res = await fetch("https://api.adviceslip.com/advice", {
+      cache: "no-cache",
+    });
     if (!res.ok) throw new Error("Network response was not ok");
     const data = await res.json();
 
-    // data is an array with one object: {q: quote, a: author}
-    const quoteData = data[0];
-    quoteEl.textContent = quoteData.q;
-    authorEl.textContent = `— ${quoteData.a}`;
+    quoteEl.textContent = `"${data.slip.advice}"`;
+    authorEl.textContent = `— Advice Slip`;
   } catch (err) {
     console.error(err);
     quoteEl.textContent = "Oops! Couldn't fetch a quote.";
@@ -20,8 +19,8 @@ async function fetchQuote() {
   }
 }
 
-// Fetch a quote immediately on page load
+// Load first quote on page load
 fetchQuote();
 
-// Fetch a new quote when button is clicked
+// Load new quote on button click
 newQuoteBtn.addEventListener("click", fetchQuote);
